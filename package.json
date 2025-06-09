@@ -1,0 +1,25 @@
+{
+  "name": "blockpass-web-widget",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "check": "tsc -noEmit",
+    "build": "bun run check && bun build ./src/index.ts --outdir ./dist --target browser",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/web": "^0.0.239"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
