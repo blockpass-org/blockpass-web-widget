@@ -3,7 +3,7 @@ import "./index.css";
 
 import { BlockpassKYCConnect } from "@blockpass/web-widget/src";
 
-const ConenctBtn = ({ clientId }: { clientId: string }) => {
+const ConnectBtn = ({ clientId }: { clientId: string }) => {
   const [webSdk, setWebSdk] = useState<BlockpassKYCConnect | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -52,8 +52,8 @@ export function App() {
       <h1>KYCC Web Demo</h1>
 
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <ConenctBtn clientId="blockpass_sales_demo" />
-        <ConenctBtn clientId="andq_production_service_8de94" />
+        <ConnectBtn clientId="blockpass_sales_demo" />
+        <ConnectBtn clientId="andq_production_service_8de94" />
       </div>
     </div>
   );
