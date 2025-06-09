@@ -3,49 +3,68 @@ export interface BlockpassKYCConnectParams {
   clientId: string;
   url?: string;
   refId?: string;
-  elementId?: string;
   mainColor?: string;
   email?: string;
   token?: string;
 }
 
+export type BlockpassConnectData = {
+  refId: string | null;
+  blockPassID: string | null;
+  status:
+    | "notFound"
+    | "incomplete"
+    | "waiting"
+    | "inreview"
+    | "approve"
+    | "review_requested"
+    | "blocked";
+};
+
+export type WebSDKEvent =
+  | "KYCConnectSuccess"
+  | "KYCConnectCancel"
+  | "KYCConnectClose"
+  | "KYCConnectLoad"
+  | "KYCConnectData";
+
 // Types for event callbacks
-export type KYCConnectCallback = (data?: any) => void;
+export type KYCConnectCallback = () => void;
+export type KYCConnectCallbackWithData = (data: BlockpassConnectData) => void;
+
+type WebSDKEventMapType = {
+  ["KYCConnectSuccess"]: KYCConnectCallback;
+  ["KYCConnectCancel"]: KYCConnectCallback;
+  ["KYCConnectClose"]: KYCConnectCallback;
+  ["KYCConnectLoad"]: KYCConnectCallback;
+  ["KYCConnectData"]: KYCConnectCallbackWithData;
+};
 
 export class BlockpassKYCConnect {
   private clientId: string;
   private refId: string;
-  private elementId: string;
   private url: string;
   private source: string;
-  private button: HTMLElement | null = null;
-  private html: HTMLHtmlElement;
-  private body: HTMLBodyElement;
-  private header: HTMLHeadElement;
-  private link: HTMLLinkElement;
   private container: HTMLDivElement | null = null;
   private iframe: HTMLIFrameElement | null = null;
-  private callbackKYCConnectSuccess: KYCConnectCallback | null = null;
-  private callbackKYCConnectCancel: KYCConnectCallback | null = null;
-  private callbackKYCConnectClose: KYCConnectCallback | null = null;
-  private callbackKYCConnectLoad: KYCConnectCallback | null = null;
-  private callbackKYCConnectData: KYCConnectCallback | null = null;
+  private callbackKYCConnectSuccess:
+    | WebSDKEventMapType["KYCConnectSuccess"]
+    | null = null;
+  private callbackKYCConnectCancel:
+    | WebSDKEventMapType["KYCConnectCancel"]
+    | null = null;
+  private callbackKYCConnectClose:
+    | WebSDKEventMapType["KYCConnectClose"]
+    | null = null;
+  private callbackKYCConnectLoad: WebSDKEventMapType["KYCConnectLoad"] | null =
+    null;
+  private callbackKYCConnectData: WebSDKEventMapType["KYCConnectData"] | null =
+    null;
 
-  constructor(
-    params: BlockpassKYCConnectParams = {
-      clientId: "",
-      url: "https://identity.blockpass.org",
-      refId: "",
-      elementId: "blockpass-kyc-connect",
-      mainColor: "",
-      email: "",
-      token: "",
-    }
-  ) {
+  constructor(params: BlockpassKYCConnectParams) {
     this.clientId = params.clientId;
-    this.refId = params.refId ?? "r" + Date.now();
+    this.refId = params.refId ?? "";
 
-    this.elementId = params.elementId ?? "blockpass-kyc-connect";
     this.url = params.url ?? "https://identity.blockpass.org";
     this.source = this.url + `/?clientId=${this.clientId}&refId=${this.refId}`;
 
@@ -61,43 +80,15 @@ export class BlockpassKYCConnect {
       this.source = this.source + `&token=${params.token}`;
 
     if (!this.clientId) throw new Error("missing clientId params");
-
-    this.button = document.getElementById(this.elementId);
-    this.html = document.getElementsByTagName("html")[0] as HTMLHtmlElement;
-    this.body = document.getElementsByTagName("body")[0] as HTMLBodyElement;
-
-    // Prerender the web widget
-    this.header = document.getElementsByTagName("head")[0] as HTMLHeadElement;
-    this.link = document.createElement("link");
-    this.link.setAttribute("rel", "prerender");
-    this.link.setAttribute("href", this.source);
-    this.header.appendChild(this.link);
-
-    if (!this.button)
-      throw new Error(
-        'Cannot find the button with id="' +
-          this.elementId +
-          '". Please add it in your html <body>'
-      );
   }
 
   startKYCConnect(): void {
-    // remove previous listener if exists
-    const button = document.getElementById(this.elementId);
-    if (button) {
-      button.removeEventListener("click", this._onBtnClickHandler);
-      // open iframe when button is clicked
-      button.addEventListener("click", this._onBtnClickHandler);
-    }
+    this._appendIframe();
+    this._getEvents();
+    this._deleteToken();
   }
 
   stopKYCConnect(): void {
-    // Revert style
-    this.html.style.removeProperty("overflow");
-    this.body.style.removeProperty("overflow");
-    this.html.style.removeProperty("margin");
-    this.body.style.removeProperty("margin");
-
     // Remove child
     if (this.iframe) {
       this.iframe.remove();
@@ -112,21 +103,43 @@ export class BlockpassKYCConnect {
     window.removeEventListener("message", this._onIframeMessageHandler);
   }
 
-  on(event: string, callback: KYCConnectCallback): void {
-    if (event === "KYCConnectSuccess") {
-      this.callbackKYCConnectSuccess = callback;
+  on<T extends WebSDKEvent>(event: T, callback: WebSDKEventMapType[T]): void {
+    switch (event) {
+      case "KYCConnectSuccess":
+        this.callbackKYCConnectSuccess = callback as KYCConnectCallback;
+        break;
+      case "KYCConnectCancel":
+        this.callbackKYCConnectCancel = callback as KYCConnectCallback;
+        break;
+      case "KYCConnectClose":
+        this.callbackKYCConnectClose = callback as KYCConnectCallback;
+        break;
+      case "KYCConnectLoad":
+        this.callbackKYCConnectLoad = callback as KYCConnectCallback;
+        break;
+      case "KYCConnectData":
+        this.callbackKYCConnectData = callback;
+        break;
     }
-    if (event === "KYCConnectCancel") {
-      this.callbackKYCConnectCancel = callback;
-    }
-    if (event === "KYCConnectClose") {
-      this.callbackKYCConnectClose = callback;
-    }
-    if (event === "KYCConnectLoad") {
-      this.callbackKYCConnectLoad = callback;
-    }
-    if (event === "KYCConnectData") {
-      this.callbackKYCConnectData = callback;
+  }
+
+  off(event: WebSDKEvent) {
+    switch (event) {
+      case "KYCConnectSuccess":
+        this.callbackKYCConnectSuccess = null;
+        break;
+      case "KYCConnectCancel":
+        this.callbackKYCConnectCancel = null;
+        break;
+      case "KYCConnectClose":
+        this.callbackKYCConnectClose = null;
+        break;
+      case "KYCConnectLoad":
+        this.callbackKYCConnectLoad = null;
+        break;
+      case "KYCConnectData":
+        this.callbackKYCConnectData = null;
+        break;
     }
   }
 
@@ -139,9 +152,6 @@ export class BlockpassKYCConnect {
     document.body.appendChild(this.container);
 
     this.iframe = document.createElement("iframe");
-    this.html.style.overflow = "hidden";
-    this.body.style.overflow = "hidden";
-    this.body.style.margin = "0";
 
     this.iframe.setAttribute("src", this.source);
     this.iframe.setAttribute("allowtransparency", "true");
@@ -166,15 +176,8 @@ export class BlockpassKYCConnect {
     let new_url = new URL(this.source);
     let params = new URLSearchParams(new_url.search.slice(1));
     params.delete("token");
-    new_url = this.url + "/?" + params;
-    this.source = new_url.toString();
+    this.source = this.url + "/?" + params;
   }
-
-  private _onBtnClickHandler = (event: MouseEvent) => {
-    this._appendIframe();
-    this._getEvents();
-    this._deleteToken();
-  };
 
   private _onIframeMessageHandler = (event: MessageEvent) => {
     const eventOrigin = new URL("", event.origin);
@@ -185,19 +188,17 @@ export class BlockpassKYCConnect {
       return;
     }
 
-    const data = event.data || {};
+    const data: WebSDKEvent | { event: WebSDKEvent } = event.data || {};
 
     if (data === "KYCConnectSuccess") {
       //trigger callback if exists
       if (typeof this.callbackKYCConnectSuccess === "function") {
-        this.callbackKYCConnectSuccess(
-          this.getProp(data, "payload.customData.extraData", {})
-        );
+        this.callbackKYCConnectSuccess();
       }
     }
 
     // Close iframe when user cancels
-    if (data === "KYCConnectCancel") {
+    else if (data === "KYCConnectCancel") {
       this.stopKYCConnect();
       //trigger callback if exists
       if (typeof this.callbackKYCConnectCancel === "function") {
@@ -206,7 +207,7 @@ export class BlockpassKYCConnect {
     }
 
     // Close iframe when user closes
-    if (data === "KYCConnectClose") {
+    else if (data === "KYCConnectClose") {
       this.stopKYCConnect();
       //trigger callback if exists
       if (typeof this.callbackKYCConnectClose === "function") {
@@ -215,14 +216,15 @@ export class BlockpassKYCConnect {
     }
 
     // Trigger iframe loaded callback
-    if (data === "KYCConnectLoad") {
+    else if (data === "KYCConnectLoad") {
       //trigger callback if exists
       if (typeof this.callbackKYCConnectLoad === "function") {
         this.callbackKYCConnectLoad();
       }
     }
 
-    if (data.event === "KYCConnectData") {
+    // Trigger iframe finished
+    else if ((data as any).event === "KYCConnectData") {
       const payload = this.getProp(data, "payload", {});
       if (typeof this.callbackKYCConnectData === "function") {
         this.callbackKYCConnectData(payload);
