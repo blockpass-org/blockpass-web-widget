@@ -32,33 +32,47 @@ Located in `examples/react-csp/`, this example demonstrates how to integrate the
 To run the React CSP example:
 
 ```bash
-cd examples/react-csp
-bun install
-bun dev
+bun example:react:dev
 ```
 
 ## Development
 
 ### Building Packages
 
-To build all packages:
+To build sdk packages:
 
 ```bash
-bun run build
+bun run sdk:build
 ```
 
-### Running Tests
+### Packing Packages as tgz (tarball + gzip)
 
-To run tests across all packages:
+To pack sdk packages:
 
 ```bash
-bun test
+bun run sdk:pack
+
+# Output
+packed 488B package.json
+packed 26B dist/index.d.ts
+packed 26B dist/index.js
+packed 1.62KB dist/widget.d.ts
+packed 6.79KB dist/widget.js
+
+blockpass-web-widget-0.0.1.tgz
+
+Total files: 5
+Shasum: d1eaa64884dbfc0abb92731fd0114de22deaa7a9
+Integrity: sha512-AqYCfQEu+SUFt[...]gx5/c9jiTKWVA==
+Unpacked size: 8.95KB
+Packed size: 2.36KB
 ```
 
-## License
+This tarball can be used in two ways:
 
-[Add license information here]
+1. **Publishing**: You can publish it to npm or any other registry using the [publish command](https://bun.sh/docs/cli/publish). Make sure you have the necessary registry key.
+2. **Installation in Other Projects**: You can install the tarball in other projects with the following command:
 
-## Contributing
-
-[Add contribution guidelines here]
+```bash
+npm install blockpass-web-widget-0.0.1.tgz
+```
