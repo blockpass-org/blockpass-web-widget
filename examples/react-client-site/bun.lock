@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "bun-react-template",
+      "name": "example-react-client-site",
       "dependencies": {
         "react": "^19",
         "react-dom": "^19",

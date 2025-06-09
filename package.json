@@ -3,7 +3,7 @@
   "scripts": {
     "sdk:build": "bun run --cwd packages/web-widget build",
     "sdk:pack": "bun run sdk:build && bun pm --cwd packages/web-widget pack",
-    "example:react:dev": "bun run --cwd examples/react-csp dev"
+    "example:react:dev": "bun run --cwd examples/react-client-site dev"
   },
   "workspaces": [
     "./packages/*",

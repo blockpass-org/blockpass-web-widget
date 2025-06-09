@@ -25,11 +25,11 @@ bun install
 
 ## Examples
 
-### React CSP Example
+### React Client Site Example
 
-Located in `examples/react-csp/`, this example demonstrates how to integrate the Blockpass Web Widget in a React application with Content Security Policy (CSP).
+Located in `examples/react-csp/`, this example demonstrates how to integrate the Blockpass Web Widget in a React application with Client Site.
 
-To run the React CSP example:
+To run the React Client Site example:
 
 ```bash
 bun example:react:dev
