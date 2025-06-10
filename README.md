@@ -45,6 +45,14 @@ To build sdk packages:
 bun run sdk:build
 ```
 
+### Test Packages
+
+To test sdk packages:
+
+```bash
+bun run sdk:test
+```
+
 ### Packing Packages as tgz (tarball + gzip)
 
 To pack sdk packages:
