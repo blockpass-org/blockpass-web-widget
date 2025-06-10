@@ -5,6 +5,7 @@
 First, install the package in your project:
 
 ```bash
+# npm install @blockpass/web-widget
 bun add @blockpass/web-widget
 ```
 
@@ -13,7 +14,7 @@ bun add @blockpass/web-widget
 Here's how to integrate the Blockpass Web Widget into your React application:
 
 ```tsx
-import { BlockpassKYCConnect } from "@blockpass/web-widget/src";
+import { BlockpassKYCConnect } from "@blockpass/web-widget";
 
 // Create a component that uses the widget
 const ConnectBtn = ({ clientId }: { clientId: string }) => {
