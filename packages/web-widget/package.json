@@ -1,0 +1,27 @@
+{
+  "name": "@blockpass/web-widget",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "check": "tsc -noEmit",
+    "build": "bun run check && tsc",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "@happy-dom/global-registrator": "^17.6.3",
+    "@types/bun": "latest",
+    "@types/web": "^0.0.239"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
