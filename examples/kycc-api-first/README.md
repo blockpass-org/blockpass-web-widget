@@ -1,4 +1,19 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blockpass KYCC API First Example
+
+This is a Next.js example project demonstrating how to integrate with the Blockpass KYCC API. It provides a reference implementation for collecting and submitting KYC (Know Your Customer) data including:
+
+- Personal Information (name, email, date of birth)
+- Selfie Verification
+- Proof of Address
+- Identity Documents (passport, national ID, driving license)
+- Crypto Addresses
+
+## Features
+
+- Server-side form handling with Next.js Server Actions
+- Type-safe form data submission
+- Support for multiple document types and crypto addresses
+- Modern UI with Tailwind CSS and shadcn/ui components
 
 ## Getting Started
 
@@ -16,18 +31,19 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/app/play/` - Main KYC form implementation
+- `src/app/play/actions.ts` - Server actions for form submission
+- `src/components/` - Reusable UI components
+- `src/lib/` - Utility functions and shared code
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+To learn more about the Blockpass KYCC API and Next.js:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [Blockpass Documentation](https://docs.blockpass.org) - learn about Blockpass features and API
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API
 
 ## Deploy on Vercel
 

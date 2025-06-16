@@ -39,6 +39,7 @@ export default function IdentityVerificationForm(props: Props) {
   const handleSelfieUpload = async (file: File) => {
     const reader = new FileReader();
     reader.onload = (e) => {
+      e.preventDefault();
       const base64 = e.target?.result as string;
       const base64Data = base64.split(",")[1];
 
@@ -97,8 +98,7 @@ export default function IdentityVerificationForm(props: Props) {
     reader.readAsDataURL(file);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     setIsSubmitting(true);
 
     // Add schema reference
@@ -145,7 +145,7 @@ export default function IdentityVerificationForm(props: Props) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <form className="space-y-8">
             {/* Personal Information */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold flex items-center gap-2">
@@ -490,6 +490,7 @@ export default function IdentityVerificationForm(props: Props) {
                 type="submit"
                 disabled={isSubmitting}
                 className="min-w-32"
+                onClick={handleSubmit}
               >
                 {isSubmitting ? "Submitting..." : "Submit Verification"}
               </Button>

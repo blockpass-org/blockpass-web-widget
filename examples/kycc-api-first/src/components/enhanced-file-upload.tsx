@@ -68,8 +68,9 @@ export function EnhancedFileUpload({
     [handleFileSelect]
   );
 
-  const startCamera = async () => {
+  const startCamera = async (e: React.MouseEvent) => {
     try {
+      e.preventDefault();
       setIsCapturing(true);
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: "environment" }, // Use back camera if available
@@ -85,7 +86,8 @@ export function EnhancedFileUpload({
     }
   };
 
-  const capturePhoto = () => {
+  const capturePhoto = (e: React.MouseEvent) => {
+    e.preventDefault();
     if (videoRef.current && canvasRef.current) {
       const video = videoRef.current;
       const canvas = canvasRef.current;
@@ -121,7 +123,8 @@ export function EnhancedFileUpload({
     setIsCapturing(false);
   };
 
-  const removeFile = () => {
+  const removeFile = (e: React.MouseEvent) => {
+    e.preventDefault();
     // Reset the file input
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -219,11 +222,11 @@ export function EnhancedFileUpload({
                 <canvas ref={canvasRef} className="hidden" />
               </div>
               <div className="flex gap-2 justify-center">
-                <Button onClick={capturePhoto}>
+                <Button type="button" onClick={capturePhoto}>
                   <Camera className="h-4 w-4 mr-2" />
                   Capture Photo
                 </Button>
-                <Button variant="outline" onClick={stopCamera}>
+                <Button type="button" variant="outline" onClick={stopCamera}>
                   Cancel
                 </Button>
               </div>
