@@ -106,6 +106,11 @@ export default function IdentityVerificationForm(props: Props) {
       ...formData,
     };
 
+    if (submitData.dob) {
+      const [year, month, day] = submitData.dob.split("-");
+      submitData.dob = `${month}/${day}/${year}`;
+    }
+
     console.log("Form Data:", submitData);
 
     // Simulate API call
@@ -147,6 +152,21 @@ export default function IdentityVerificationForm(props: Props) {
                 <User className="h-5 w-5" />
                 Personal Information
               </h3>
+              <CardDescription>
+                Please ensure your Given Name and Family Name match your
+                identity document. For multiple names, include all in the
+                respective fields. If a name is not applicable, please specify
+                "N/A". For more details, refer to the{" "}
+                <a
+                  href="https://help.blockpass.org/hc/en-us/articles/360045088314-Name-Entry-Guidelines"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:underline"
+                >
+                  Blockpass Name Entry Guidelines
+                </a>
+                .
+              </CardDescription>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="given_name">Given Name *</Label>
@@ -159,7 +179,6 @@ export default function IdentityVerificationForm(props: Props) {
                         given_name: e.target.value,
                       }))
                     }
-                    placeholder="Enter your first name"
                     required
                   />
                 </div>
@@ -174,7 +193,6 @@ export default function IdentityVerificationForm(props: Props) {
                         family_name: e.target.value,
                       }))
                     }
-                    placeholder="Enter your last name"
                     required
                   />
                 </div>
@@ -286,7 +304,18 @@ export default function IdentityVerificationForm(props: Props) {
                 <CardHeader>
                   <CardTitle className="text-base">Identity Document</CardTitle>
                   <CardDescription>
-                    Upload your passport, national ID, or driving license
+                    Upload a live picture of your physical ID document. Ensure
+                    all four corners are visible, minimize glare/shadows, and
+                    use good lighting. For more details, refer to the{" "}
+                    <a
+                      href="https://help.blockpass.org/hc/en-us/articles/360024364214-Perfect-ID-Photo-Guide"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 hover:underline"
+                    >
+                      Blockpass Perfect ID Photo Guide
+                    </a>
+                    .
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -325,17 +354,30 @@ export default function IdentityVerificationForm(props: Props) {
                     </div>
 
                     {/* Front Side */}
-                    <div>
-                      <EnhancedFileUpload
-                        id="identity_doc_front"
-                        label="Document Front Side"
-                        description="Upload or capture the front side of your identity document"
-                        onFileUpload={(file) =>
-                          handleIdentityDocumentUpload(file, "front")
-                        }
-                        uploadedFile={formData.identity_documents?.front}
-                      />
-                    </div>
+                    {formData.identity_documents?.type && (
+                      <div>
+                        <EnhancedFileUpload
+                          id="identity_doc_front"
+                          label="Document Front Side"
+                          description=""
+                          onFileUpload={(file) =>
+                            handleIdentityDocumentUpload(file, "front")
+                          }
+                          uploadedFile={formData.identity_documents?.front}
+                          onRemoveFile={() =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              identity_documents: {
+                                ...prev.identity_documents,
+                                type:
+                                  prev.identity_documents?.type || "passport",
+                                front: undefined,
+                              },
+                            }))
+                          }
+                        />
+                      </div>
+                    )}
 
                     {/* Back Side - Optional for some documents */}
                     {formData.identity_documents?.type &&
@@ -349,6 +391,17 @@ export default function IdentityVerificationForm(props: Props) {
                               handleIdentityDocumentUpload(file, "back")
                             }
                             uploadedFile={formData.identity_documents?.back}
+                            onRemoveFile={() =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                identity_documents: {
+                                  ...prev.identity_documents,
+                                  type:
+                                    prev.identity_documents?.type || "passport",
+                                  back: undefined,
+                                },
+                              }))
+                            }
                           />
                         </div>
                       )}
@@ -361,17 +414,34 @@ export default function IdentityVerificationForm(props: Props) {
                 <CardHeader>
                   <CardTitle className="text-base">Selfie Photo</CardTitle>
                   <CardDescription>
-                    Upload a clear photo of yourself or take one with your
-                    camera
+                    Upload a clear photo of yourself where your face is entirely
+                    visible and matches your identity document. Avoid
+                    screenshots and ensure good lighting. For more details,
+                    refer to the{" "}
+                    <a
+                      href="https://help.blockpass.org/hc/en-us/articles/360024532713-Selfie-Rejection-Reasons"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 hover:underline"
+                    >
+                      Blockpass Selfie Rejection Reasons
+                    </a>
+                    .
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <EnhancedFileUpload
                     id="selfie"
                     label="Selfie Photo"
-                    description="Take a clear photo of yourself"
+                    description=""
                     onFileUpload={handleSelfieUpload}
                     uploadedFile={formData.selfie}
+                    onRemoveFile={() =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        selfie: undefined,
+                      }))
+                    }
                   />
                 </CardContent>
               </Card>
@@ -381,16 +451,34 @@ export default function IdentityVerificationForm(props: Props) {
                 <CardHeader>
                   <CardTitle className="text-base">Proof of Address</CardTitle>
                   <CardDescription>
-                    Upload a utility bill, bank statement, or similar document
+                    Upload a utility bill, bank statement, or government-issued
+                    document issued within the last 3 months, clearly showing
+                    your full name, current residential address, issue date, and
+                    issuer. For more details, refer to the{" "}
+                    <a
+                      href="https://help.blockpass.org/hc/en-us/articles/360043833034-Proof-of-Address-Requirements"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 hover:underline"
+                    >
+                      Blockpass Proof of Address Requirements
+                    </a>
+                    .
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <EnhancedFileUpload
                     id="proof_of_address"
                     label="Proof of Address"
-                    description="Upload a utility bill, bank statement, or similar document"
+                    description=""
                     onFileUpload={handleProofOfAddressUpload}
                     uploadedFile={formData.proof_of_address}
+                    onRemoveFile={() =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        proof_of_address: undefined,
+                      }))
+                    }
                   />
                 </CardContent>
               </Card>
