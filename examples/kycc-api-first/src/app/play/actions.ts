@@ -1,10 +1,10 @@
 "use server";
 
 export interface FormData {
-  email: string;
-  given_name: string;
-  family_name: string;
-  dob: string;
+  email?: string;
+  given_name?: string;
+  family_name?: string;
+  dob?: string;
   selfie?: {
     value_base64: string;
     mime_type: "image/jpeg" | "image/png";
