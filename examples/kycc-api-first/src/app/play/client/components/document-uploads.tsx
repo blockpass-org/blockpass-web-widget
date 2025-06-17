@@ -116,9 +116,10 @@ export function DocumentUploads({
           <CardHeader>
             <CardTitle className="text-base">Identity Document</CardTitle>
             <CardDescription>
-              Upload a live picture of your physical ID document. Ensure all
-              four corners are visible, minimize glare/shadows, and use good
-              lighting. For more details, refer to the{" "}
+              Upload a picture or take a live photo of your physical ID
+              document. Ensure all four corners are visible, minimize
+              glare/shadows, and use good lighting. For more details, refer to
+              the{" "}
               <a
                 href="https://help.blockpass.org/hc/en-us/articles/360024364214-Perfect-ID-Photo-Guide"
                 target="_blank"
@@ -231,9 +232,10 @@ export function DocumentUploads({
           <CardHeader>
             <CardTitle className="text-base">Selfie Photo</CardTitle>
             <CardDescription>
-              Upload a clear photo of yourself where your face is entirely
-              visible and matches your identity document. Avoid screenshots and
-              ensure good lighting. For more details, refer to the{" "}
+              Upload a clear picture of yourself or take a live photo. Your face
+              must be entirely visible and must match your identity document.
+              Avoid screenshots and ensure good lighting. For more details,
+              refer to the{" "}
               <a
                 href="https://help.blockpass.org/hc/en-us/articles/360024532713-Selfie-Rejection-Reasons"
                 target="_blank"

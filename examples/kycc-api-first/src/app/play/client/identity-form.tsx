@@ -162,8 +162,9 @@ export default function IdentityVerificationForm({
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <User className="h-6 w-6" />
-            Identity Verification Form
+            <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+              Identity Verification Form
+            </h2>
           </CardTitle>
           <CardDescription>
             Please provide the required information and documents to complete
@@ -202,7 +203,7 @@ export default function IdentityVerificationForm({
                 disabled={isSubmitting}
                 className="min-w-32"
               >
-                {isSubmitting ? "Submitting..." : "Submit Verification"}
+                {isSubmitting ? "Submitting..." : "Submit for Verification"}
               </Button>
             </div>
           </form>
