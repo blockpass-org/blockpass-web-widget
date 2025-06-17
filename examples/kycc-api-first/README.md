@@ -63,6 +63,32 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - `src/components/` - Reusable UI components
 - `src/lib/` - Utility functions and shared code
 
+## Known Limitations
+
+### Component Attributes Configuration
+
+The Blockpass Web Widget requires manual configuration of component attributes to match Blockpass service requirements. These attributes need to be explicitly set based on your specific use case:
+
+- For crypto AML verification:
+
+  ```tsx
+  requiredFields={["crypto_address"]}
+  allowedCryptoTypes={["crypto_address_eth"]}
+  ```
+
+- For identity document verification:
+  ```tsx
+  requiredFields={[
+    "identity_documents",
+    "family_name",
+    "given_name",
+    "email",
+    "dob"
+  ]}
+  ```
+
+Make sure to configure these attributes according to your Blockpass service requirements before deploying the widget.
+
 ## Learn More
 
 To learn more about the Blockpass KYCC API and Next.js:
