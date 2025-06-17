@@ -13,6 +13,7 @@ import {
   generateKYCCDashboardLinkToRecordId,
 } from "./actions";
 import { Suspense } from "react";
+import Link from "next/link";
 
 const statusExplanations = {
   incomplete: "Initial state: Waiting for Blockpass to perform checks.",
@@ -141,7 +142,7 @@ async function StatusContent({ refId }: { refId: string }) {
 export default async function ResultPage({
   params,
 }: {
-  params: { refId: string };
+  params: Promise<{ refId: string }>;
 }) {
   const { refId } = await params;
   const dashboardLink = await generateKYCCDashboardLinkToRefId(refId);
@@ -219,7 +220,7 @@ export default async function ResultPage({
                 </a>
               </p>
               <div className="mt-4 pt-4 border-t">
-                <a
+                <Link
                   href="/"
                   className="text-primary hover:underline inline-flex items-center gap-1"
                 >
@@ -239,7 +240,7 @@ export default async function ResultPage({
                     <path d="M5 12h14" />
                     <path d="m12 5 7 7-7 7" />
                   </svg>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

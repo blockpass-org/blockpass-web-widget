@@ -33,7 +33,7 @@ export function PersonalInformation({
       <CardDescription>
         Please ensure your Given Name and Family Name match your identity
         document. For multiple names, include all in the respective fields. If a
-        name is not applicable, please specify "N/A". For more details, refer to
+        name is not applicable, please specify N/A. For more details, refer to
         the{" "}
         <a
           href="https://help.blockpass.org/hc/en-us/articles/360045088314-Name-Entry-Guidelines"
