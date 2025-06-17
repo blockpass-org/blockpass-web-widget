@@ -110,6 +110,7 @@ export async function serverActionSubmit(formData: FormData) {
     given_name: formData.given_name,
     family_name: formData.family_name,
     crypto_address: formData.crypto_address,
+    dob: formData.dob,
   };
 
   // Step 3: Process selfie image if provided
@@ -216,10 +217,6 @@ export async function serverActionSubmit(formData: FormData) {
       },
       body: JSON.stringify(body),
     });
-
-    if (![201, 200].includes(response.status)) {
-      throw new Error(`status is ${response.status}`);
-    }
 
     data = await response.json();
   } catch (err: any) {

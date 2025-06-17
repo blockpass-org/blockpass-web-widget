@@ -17,7 +17,32 @@ This is a Next.js example project demonstrating how to integrate with the Blockp
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository and navigate to the example directory:
+
+```bash
+cd examples/kycc-api-first
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+3. Set up environment variables:
+
+   - Copy `env.template` to `.env.local`
+   - Fill in your Blockpass KYCC API credentials:
+     - `KYCC_CLIENT_ID`: Your Blockpass client ID
+     - `KYCC_WRITE_API_KEY`: API key with write permissions
+     - `KYCC_READ_API_KEY`: API key with read permissions
+     - `KYCC_BASE_URL`: Blockpass KYCC API base URL (https://kyc.blockpass.org)
+
+4. Run the development server:
 
 ```bash
 npm run dev
