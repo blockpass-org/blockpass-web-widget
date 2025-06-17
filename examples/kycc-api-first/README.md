@@ -69,6 +69,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 The Blockpass Web Widget requires manual configuration of component attributes to match Blockpass service requirements. These attributes need to be explicitly set based on your specific use case:
 
+see `examples/kycc-api-first/src/app/play/page.tsx`
+
 - For crypto AML verification:
 
   ```tsx
