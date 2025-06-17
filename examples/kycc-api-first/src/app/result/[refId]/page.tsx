@@ -143,7 +143,7 @@ export default async function ResultPage({
 }: {
   params: { refId: string };
 }) {
-  const { refId } = params;
+  const { refId } = await params;
   const dashboardLink = await generateKYCCDashboardLinkToRefId(refId);
 
   return (

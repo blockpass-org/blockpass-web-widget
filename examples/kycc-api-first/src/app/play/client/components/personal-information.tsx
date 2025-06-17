@@ -51,7 +51,7 @@ export function PersonalInformation({
             <Label htmlFor="given_name">Given Name *</Label>
             <Input
               id="given_name"
-              value={formData.given_name}
+              value={formData.given_name || ""}
               onChange={(e) =>
                 setFormData({
                   ...formData,
@@ -67,7 +67,7 @@ export function PersonalInformation({
             <Label htmlFor="family_name">Family Name *</Label>
             <Input
               id="family_name"
-              value={formData.family_name}
+              value={formData.family_name || ""}
               onChange={(e) =>
                 setFormData({
                   ...formData,
@@ -86,7 +86,7 @@ export function PersonalInformation({
             <Input
               id="email"
               type="email"
-              value={formData.email}
+              value={formData.email || ""}
               onChange={(e) =>
                 setFormData({
                   ...formData,
@@ -104,7 +104,7 @@ export function PersonalInformation({
             <Input
               id="dob"
               type="date"
-              value={formData.dob}
+              value={formData.dob || ""}
               onChange={(e) =>
                 setFormData({
                   ...formData,
