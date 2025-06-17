@@ -47,7 +47,7 @@ export async function generateKYCCDashboardLinkToRefId(refId?: string) {
 
   // Validate that all required environment variables are present
   if (!kycconnectBaseUrl || !kycconnectClientId) {
-    throw new Error("Missing process.env");
+    throw new Error("Missing config file: .env.local");
   }
 
   if (refId) {
@@ -63,7 +63,7 @@ export async function generateKYCCDashboardLinkToRecordId(recordId: string) {
 
   // Validate that all required environment variables are present
   if (!kycconnectBaseUrl || !kycconnectClientId) {
-    throw new Error("Missing process.env");
+    throw new Error("Missing config file: .env.local");
   }
 
   return `${kycconnectBaseUrl}/kyc/dashboard/index.html#/${kycconnectClientId}/kyc_detail/${recordId}`;
@@ -77,7 +77,7 @@ export async function fetchKYCCStatus(refId: string) {
 
   // Validate that all required environment variables are present
   if (!kycconnectBaseUrl || !kycconnectClientId || !kycconnectReadApiKey) {
-    throw new Error("Missing process.env");
+    throw new Error("Missing config file: .env.local");
   }
 
   const url = `${kycconnectBaseUrl}/kyc/1.0/connect/${kycconnectClientId}/refId/${refId}`;

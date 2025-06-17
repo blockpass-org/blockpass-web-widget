@@ -21,7 +21,7 @@ export async function serverActionSubmit(formData: FormData) {
 
   // Validate that all required environment variables are present
   if (!kycconnectBaseUrl || !kycconnectClientId || !kycconnectWriteApiKey) {
-    throw new Error("Missing process.env");
+    throw new Error("Missing config file: .env.local");
   }
 
   // Step 2: Initialize the request body with basic user information
