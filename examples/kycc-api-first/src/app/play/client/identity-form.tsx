@@ -11,12 +11,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { User } from "lucide-react";
 import { serverActionSubmit, type FormData } from "../actions";
 import { ErrorSummary } from "./components/error-summary";
 import { PersonalInformation } from "./components/personal-information";
 import { CryptoAddress } from "./components/crypto-address";
 import { DocumentUploads } from "./components/document-uploads";
+import { AddressInformation } from "./components/address-information";
 
 type CryptoAddressType = NonNullable<FormData["crypto_address"]>["type"];
 type IdentityDocumentType = NonNullable<FormData["identity_documents"]>["type"];
@@ -47,6 +47,7 @@ export default function IdentityVerificationForm({
     "selfie",
     "identity_documents",
     "proof_of_address",
+    "address",
   ],
   allowedCryptoTypes,
   allowedIdentityTypes,
@@ -180,6 +181,14 @@ export default function IdentityVerificationForm({
               setFormData={setFormData}
               requiredFields={requiredFields}
             />
+
+            {requiredFields.includes("address") && (
+              <AddressInformation
+                formData={formData}
+                setFormData={setFormData}
+                requiredFields={requiredFields}
+              />
+            )}
 
             {requiredFields.includes("crypto_address") && (
               <CryptoAddress

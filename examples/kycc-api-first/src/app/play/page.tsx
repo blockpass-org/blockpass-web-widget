@@ -5,17 +5,29 @@ export default function Play() {
     <main>
       <div>
         <IdentityVerificationForm
-          // for testing with - dev_test_kycc_api_beta_01_f307c - cryptoAML
+          // for testing with cryptoAML
           // requiredFields={["crypto_address"]}
           // allowedCryptoTypes={["crypto_address_eth"]}
 
           // for testing with - id_api - idDoc only
+          // requiredFields={[
+          //   "identity_documents",
+          //   "family_name",
+          //   "given_name",
+          //   "email",
+          //   "dob",
+          //   "address",
+          // ]}
+
+          // for testing with poa_api - IdDoc + proof of address
           requiredFields={[
             "identity_documents",
-            "family_name",
             "given_name",
+            "family_name",
             "email",
             "dob",
+            "address",
+            "proof_of_address",
           ]}
         />
       </div>

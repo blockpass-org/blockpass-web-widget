@@ -103,7 +103,7 @@ export async function serverActionSubmit(formData: FormData) {
       throw new Error(`Identity Document error: require at least a front page`);
     }
 
-    // Step 6: Handle identity document processing
+    // Incase 2 faces. Handle identity document processing.
     if (bufferFront && bufferBack) {
       // If both sides are provided, combine them into a single image
       const merged = await combineImage(bufferFront, bufferBack);
@@ -120,6 +120,11 @@ export async function serverActionSubmit(formData: FormData) {
         value_base64: bufferFront.toString("base64"),
       };
     }
+  }
+
+  // Step 6: Process residence address if provided
+  if (formData.address) {
+    body.address = formData.address;
   }
 
   // Step 7: Generate a unique reference ID and construct the API URL
@@ -194,6 +199,33 @@ export interface FormData {
       | "crypto_address_avax";
     value: string;
   };
+
+  address?: {
+    /**
+     * Address line 1
+     */
+    address: string;
+    /**
+     * Country code ISO3
+     */
+    country: string;
+    /**
+     * City name
+     */
+    city: string;
+    /**
+     * Zip/Postal code
+     */
+    postalCode: string;
+    /**
+     * Address line 2 - optional
+     */
+    extraInfo?: string;
+    /**
+     * State name - optional
+     */
+    state?: string;
+  };
 }
 
 export type SubmitResponse = {
@@ -231,6 +263,33 @@ type KYCCImportRequestBody = {
       | "crypto_address_arb"
       | "crypto_address_avax";
     value: string;
+  };
+
+  address?: {
+    /**
+     * Address line 1
+     */
+    address: string;
+    /**
+     * Country code ISO3
+     */
+    country: string;
+    /**
+     * City name
+     */
+    city: string;
+    /**
+     * Zip/Postal code
+     */
+    postalCode: string;
+    /**
+     * Address line 2 - optional
+     */
+    extraInfo?: string;
+    /**
+     * State name - optional
+     */
+    state?: string;
   };
 };
 type KYCCImportResponseBody =
