@@ -27,12 +27,6 @@ cd examples/kycc-api-first
 
 ```bash
 bun install
-# or
-npm install
-# or
-yarn install
-# or
-pnpm install
 ```
 
 3. Set up environment variables:
@@ -48,12 +42,6 @@ pnpm install
 
 ```bash
 bun run dev
-# or
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 
 ```
 
