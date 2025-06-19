@@ -4,7 +4,7 @@ This is a Next.js example project demonstrating how to integrate with the Blockp
 
 - Personal Information (name, email, date of birth)
 - Selfie Verification
-- Proof of Address
+- Proof of Address (resident address, proof of address document)
 - Identity Documents (passport, national ID, driving license)
 - Crypto Addresses
 
@@ -26,6 +26,8 @@ cd examples/kycc-api-first
 2. Install dependencies:
 
 ```bash
+bun install
+# or
 npm install
 # or
 yarn install
@@ -45,13 +47,14 @@ pnpm install
 4. Run the development server:
 
 ```bash
+bun run dev
+# or
 npm run dev
 # or
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
+
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

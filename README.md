@@ -35,6 +35,40 @@ To run the React Client Site example:
 bun example:react:dev
 ```
 
+### KYCC API First Example
+
+Located in `examples/kycc-api-first/`, this example demonstrates how to integrate the Blockpass Web Widget with the Blockpass KYCC API using a Next.js application.
+
+This reference implementation covers:
+
+- Personal Information (name, email, date of birth)
+- Selfie Verification
+- Proof of Address (resident address, proof of address document)
+- Identity Documents (passport, national ID, driving license)
+- Crypto Addresses
+
+**Features:**
+
+- Server-side form handling with Next.js Server Actions
+- Type-safe form data submission
+- Support for multiple document types and crypto addresses
+- Modern UI with Tailwind CSS and shadcn/ui components
+
+To run the KYCC API First example:
+
+```bash
+bun example:kycc_api:dev
+```
+
+Or, run it directly from the example directory:
+
+```bash
+cd examples/kycc-api-first
+bun run dev
+```
+
+See the example's README for environment setup and more details.
+
 ## Development
 
 ### Building Packages
