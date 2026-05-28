@@ -70,11 +70,7 @@ export class BlockpassKYCConnect {
 
     if (params.mainColor !== undefined && params.mainColor !== "")
       this.source = this.source + `&mainColor=${params.mainColor}`;
-    if (
-      params.email != "undefined" &&
-      params.email !== undefined &&
-      params.email !== ""
-    )
+    if (params.email !== undefined && params.email !== "")
       this.source = this.source + `&email=${encodeURIComponent(params.email)}`;
     if (params.token !== undefined && params.token !== "")
       this.source = this.source + `&token=${params.token}`;
@@ -180,8 +176,15 @@ export class BlockpassKYCConnect {
   }
 
   private _onIframeMessageHandler = (event: MessageEvent) => {
-    const eventOrigin = new URL("", event.origin);
-    if (!eventOrigin.hostname.endsWith("blockpass.org")) {
+    // Require the message to come from the exact iframe window we injected.
+    // Object identity is harder to spoof than any origin string.
+    if (!this.iframe || event.source !== this.iframe.contentWindow) {
+      return;
+    }
+
+    const host = new URL("", event.origin).hostname;
+    // Use a dot boundary so e.g. "evilblockpass.org" cannot pass the suffix check.
+    if (host !== "blockpass.org" && !host.endsWith(".blockpass.org")) {
       console.warn(
         "Warning: A message from an unauthorized origin has been received"
       );
