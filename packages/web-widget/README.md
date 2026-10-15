@@ -59,6 +59,7 @@ The `BlockpassKYCConnect` constructor accepts the following options:
 - `mainColor` (optional): Customize the widget's main color (default: "black")
 - `refId`: (optional): Merchant reference ID
 - `email`: (optional): Prefilled email change
+- `forceLogout` (optional): `1` (or `true`) logs out any user already signed in to Blockpass on this browser before the widget starts. Use it when several people share a browser and may not log out between sessions. Default: `0`, an existing session is kept
 
 ### Event Handlers
 
