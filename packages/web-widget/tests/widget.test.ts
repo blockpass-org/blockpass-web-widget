@@ -156,6 +156,45 @@ describe("BlockpassKYCConnect", () => {
     expect(src).toContain(`token=${mockToken}`);
   });
 
+  test("should add forceLogout=1 to iframe src when forceLogout is 1 or true", () => {
+    widget = new BlockpassKYCConnect({ clientId: mockClientId, forceLogout: 1 });
+    widget.startKYCConnect();
+    expect(getIframeSrc()).toContain("forceLogout=1");
+
+    lastIframe = undefined as any;
+    const widget2 = new BlockpassKYCConnect({
+      clientId: mockClientId,
+      forceLogout: true,
+    });
+    widget2.startKYCConnect();
+    expect(getIframeSrc()).toContain("forceLogout=1");
+  });
+
+  test("should omit forceLogout param by default or when 0/false", () => {
+    for (const forceLogout of [undefined, 0, false] as const) {
+      lastIframe = undefined as any;
+      widget = new BlockpassKYCConnect({ clientId: mockClientId, forceLogout });
+      widget.startKYCConnect();
+      expect(getIframeSrc()).not.toContain("forceLogout");
+    }
+  });
+
+  test("should keep forceLogout when the widget is reopened", () => {
+    widget = new BlockpassKYCConnect({
+      clientId: mockClientId,
+      token: mockToken,
+      forceLogout: 1,
+    });
+    widget.startKYCConnect();
+    widget.stopKYCConnect();
+
+    lastIframe = undefined as any;
+    widget.startKYCConnect();
+    const src = getIframeSrc();
+    expect(src).toContain("forceLogout=1");
+    expect(src).not.toContain("token=");
+  });
+
   test("should handle KYCConnectSuccess message", () => {
     widget = new BlockpassKYCConnect({ clientId: mockClientId });
     const fakeWindow = stubIframeWindow(widget);

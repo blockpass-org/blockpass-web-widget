@@ -6,6 +6,9 @@ export interface BlockpassKYCConnectParams {
   mainColor?: string;
   email?: string;
   token?: string;
+  // 1 (or true): clear any identity app session already in this browser before starting.
+  // For browsers shared between users. Default 0.
+  forceLogout?: 0 | 1 | boolean;
 }
 
 export type BlockpassConnectData = {
@@ -74,6 +77,8 @@ export class BlockpassKYCConnect {
       this.source = this.source + `&email=${encodeURIComponent(params.email)}`;
     if (params.token !== undefined && params.token !== "")
       this.source = this.source + `&token=${params.token}`;
+    if (params.forceLogout === 1 || params.forceLogout === true)
+      this.source = this.source + "&forceLogout=1";
 
     if (!this.clientId) throw new Error("missing clientId params");
   }
